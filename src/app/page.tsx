@@ -58,7 +58,7 @@ export default async function Home() {
         />
 
         {/* Welcome message */}
-        <h1 className="text-cente text-base text-accent sm:text-xl lg:text-2xl">
+        <h1 className="text-center text-base text-accent sm:text-xl lg:text-2xl">
           {t.welcome}
         </h1>
 

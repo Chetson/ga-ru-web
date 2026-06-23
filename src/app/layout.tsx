@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Ubuntu } from "next/font/google";
 import { getRequestLocale } from "@/lib/locale-provider";
+import { getDictionary } from "@/lib/translations/dictionaries";
 import "./globals.css";
 
 const ubuntu = Ubuntu({
@@ -14,10 +15,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Guard Atlantes | Official Clan Website",
-  description: "GA.RU community hub",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const t = await getDictionary(locale);
+
+  return {
+    title: t.title,
+    description: "GA.RU community hub",
+  };
+}
 
 export default async function RootLayout({
   children,

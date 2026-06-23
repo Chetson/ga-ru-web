@@ -4,13 +4,15 @@ import { useState, useEffect, useCallback } from "react";
 import { GlobeIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import type { Locale } from "@/lib/translations/dictionaries";
+import { supportedLocales } from "@/lib/translations/dictionaries";
 
 interface LanguageSwitcherProps {
-  currentLocale: string;
+  currentLocale: Locale;
   className?: string;
 }
 
-const localeLabels: Record<string, string> = {
+const localeLabels: Record<Locale, string> = {
   ru: "Русский",
   en: "English",
 };
@@ -20,9 +22,9 @@ export function LanguageSwitcher({
   className,
 }: LanguageSwitcherProps) {
   const [open, setOpen] = useState(false);
-  const [pendingLocale, setPendingLocale] = useState<string | null>(null);
+  const [pendingLocale, setPendingLocale] = useState<Locale | null>(null);
 
-  const switchTo = useCallback((locale: string) => {
+  const switchTo = useCallback((locale: Locale) => {
     setPendingLocale(locale);
   }, []);
 
@@ -33,12 +35,12 @@ export function LanguageSwitcher({
     }
   }, [pendingLocale]);
 
-  const otherLocale = currentLocale === "ru" ? "en" : "ru";
+  const otherLocale: Locale = currentLocale === "ru" ? "en" : "ru";
 
   if (open) {
     return (
       <div className={cn("flex items-center gap-1", className)}>
-        {["ru", "en"].map((loc) => (
+        {supportedLocales.map((loc) => (
           <Button
             key={loc}
             variant={loc === currentLocale ? "default" : "outline"}
