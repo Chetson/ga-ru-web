@@ -17,7 +17,7 @@ export default async function Home() {
       {/* Language switcher — top right */}
       <LanguageSwitcher
         currentLocale={locale}
-        className="absolute top-4 right-4 z-20"
+        className="absolute top-8 right-8 z-20"
       />
 
       {/* Spacer: pushes logo higher on larger screens */}
