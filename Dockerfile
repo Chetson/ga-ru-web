@@ -27,6 +27,10 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
+# Ensure the nextjs user can write to the cache directory
+RUN mkdir -p .next/cache/images && \
+    chown -R nextjs:nodejs /app/.next
+
 USER nextjs
 
 EXPOSE 3000
