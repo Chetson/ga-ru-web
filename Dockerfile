@@ -19,17 +19,20 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# Create user/group BEFORE copying, so --chown can use them
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-# Copy standalone output
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
+# Copy standalone output with correct ownership
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
-# Ensure the nextjs user can write to the cache directory
+# Next.js needs to write to .next/cache at runtime.
+# The COPY above brought .next/ as nextjs:nodejs, but .next/cache
+# doesn't exist yet — create it and ensure ownership.
 RUN mkdir -p .next/cache/images && \
-    chown -R nextjs:nodejs /app/.next
+    chown -R nextjs:nodejs .next/cache
 
 USER nextjs
 
