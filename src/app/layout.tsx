@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Ubuntu } from "next/font/google";
+import { getRequestLocale } from "@/lib/locale-provider";
 import "./globals.css";
 
 const ubuntu = Ubuntu({
@@ -18,14 +19,16 @@ export const metadata: Metadata = {
   description: "GA.RU community hub",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getRequestLocale();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${ubuntu.variable} ${geistMono.variable} h-full antialiased dark`}
       suppressHydrationWarning
     >

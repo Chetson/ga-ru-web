@@ -1,13 +1,25 @@
 import { buttonVariants } from "@/components/ui/button";
 import { DiscordIcon } from "@/components/icons/discord-icon";
 import { YouTubeIcon } from "@/components/icons/youtube-icon";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { getRequestLocale } from "@/lib/locale-provider";
+import { getDictionary } from "@/lib/translations/dictionaries";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const locale = await getRequestLocale();
+  const t = await getDictionary(locale);
+
   return (
     <main className="relative flex min-h-dvh flex-col items-center justify-start overflow-hidden bg-background">
+      {/* Language switcher — top right */}
+      <LanguageSwitcher
+        currentLocale={locale}
+        className="absolute top-4 right-4 z-20"
+      />
+
       {/* Spacer: pushes logo higher on larger screens */}
       <div
         className="flex-none h-[2vh] sm:h-[2vh] lg:h-[0.5vh]"
@@ -47,14 +59,14 @@ export default function Home() {
 
         {/* Welcome message */}
         <h1 className="text-cente text-base text-accent sm:text-xl lg:text-2xl">
-          Добро пожаловать на сайт клана GA.RU
+          {t.welcome}
         </h1>
 
         {/* Divider */}
         <div className="flex w-full items-center gap-4">
           <div className="h-px flex-1 bg-border" />
           <span className="text-xs tracking-[0.5em] uppercase text-muted-foreground">
-            Links
+            {t.links}
           </span>
           <div className="h-px flex-1 bg-border" />
         </div>
@@ -71,7 +83,7 @@ export default function Home() {
             )}
           >
             <DiscordIcon />
-            Discord
+            {t.discord}
           </Link>
           <Link
             href="https://www.youtube.com/watch?v=LaX5C9REMbM&list=PLysDvxyhx9B69cXvMbTJj0H6s1Hp9tZNR"
@@ -83,7 +95,7 @@ export default function Home() {
             )}
           >
             <YouTubeIcon />
-            YouTube
+            {t.youtube}
           </Link>
         </div>
       </div>
