@@ -100,6 +100,16 @@ export default async function Home() {
         </div>
       </div>
 
+      {/* Creator credit — bottom-left */}
+      <Link
+        href="https://discord.com/users/chetson"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute bottom-6 left-4 sm:bottom-8 sm:left-6 z-10 text-xs text-muted-foreground hover:text-accent transition-colors font-sans"
+      >
+        {t.createdBy}
+      </Link>
+
       {/* Bottom accent line */}
       <div className="absolute bottom-0 left-0 right-0 h-1 bg-accent z-10" />
     </main>
